@@ -1,76 +1,63 @@
 let order = [];
 let clickedOrder = [];
 let score = 0;
+const timePerTimeStep = 500;
 
 //0 - verde
 //1 - vermelho
 //2 - amarelo
 //3 - azul
 
-const blue = document.querySelector(".blue");
-const red = document.querySelector(".red");
 const green = document.querySelector(".green");
+const red = document.querySelector(".red");
 const yellow = document.querySelector(".yellow");
+const blue = document.querySelector(".blue");
+const colors = [green, red, yellow, blue];
 
 //cria ordem aletoria de cores
 const shuffleOrder = () => {
-  const colorOrder = Math.floor(Math.random() * 4);
-  order[order.length] = colorOrder;
   clickedOrder = [];
+  const randomColor = Math.floor(Math.random() * 4);
+  order.push(randomColor);
 
-  for (let i in order) {
-    let elementColor = createColorElement(order[i]);
-    lightColor(elementColor, Number(i) + 1);
-  }
+  order.forEach((color, index) => lightColor(colors[color], index + 1));
 };
 
 //acende a proxima cor
-const lightColor = (element, number) => {
-  number = number * 500;
+const lightColor = (colorElement, timeSteps) => {
+  const time = timeSteps * timePerTimeStep;
   setTimeout(() => {
-    element.classList.add("selected");
-  }, number - 250);
+    colorElement.classList.add("selected");
+  }, time / 2);
   setTimeout(() => {
-    element.classList.remove("selected");
-  });
+    colorElement.classList.remove("selected");
+  }, time);
 };
 
 //checa se os botoes clicados são os mesmos da ordem gerada no jogo
 const checkOrder = () => {
   for (let i in clickedOrder) {
-    if (clickedOrder[i] != order[i]) {
+    if (clickedOrder[i] !== order[i]) {
       gameOver();
       break;
     }
   }
-  if (clickedOrder.length == order.length) {
+  if (clickedOrder.length === order.length) {
     alert(`Pontuação: ${score}\nVocê acertou! Iniciando próximo nível!`);
     nextLevel();
   }
 };
 
 //funcao para o clique do usuario
-const click = (color) => {
-  clickedOrder[clickedOrder.length] = color;
-  createColorElement(color).classList.add("selected");
+const click = (clickedColor) => {
+  clickedOrder.push(clickedColor);
 
+  const clickedColorElement = colors[clickedColor];
+  clickedColorElement.classList.add("selected");
   setTimeout(() => {
-    createColorElement(color).classList.remove("selected");
+    clickedColorElement.classList.remove("selected");
     checkOrder();
-  }, 250);
-};
-
-//funcao que retorna a cor
-const createColorElement = (color) => {
-  if (color == 0) {
-    return green;
-  } else if (color == 1) {
-    return red;
-  } else if (color == 2) {
-    return yellow;
-  } else if (color == 3) {
-    return blue;
-  }
+  }, timePerTimeStep / 2);
 };
 
 //funcao para proximo nivel do jogo
