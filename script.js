@@ -1,7 +1,7 @@
 let order = [];
 let clickedOrder = [];
 let score = 0;
-const timePerTimeStep = 500;
+const timePerTimeStep = 1000;
 
 //0 - verde
 //1 - vermelho
@@ -28,10 +28,10 @@ const lightColor = (colorElement, timeSteps) => {
   const time = timeSteps * timePerTimeStep;
   setTimeout(() => {
     colorElement.classList.add("selected");
-  }, time / 2);
+  }, time);
   setTimeout(() => {
     colorElement.classList.remove("selected");
-  }, time);
+  }, time + timePerTimeStep / 2);
 };
 
 //checa se os botoes clicados são os mesmos da ordem gerada no jogo
@@ -57,7 +57,7 @@ const click = (clickedColor) => {
   setTimeout(() => {
     clickedColorElement.classList.remove("selected");
     checkOrder();
-  }, timePerTimeStep / 2);
+  }, 250);
 };
 
 //funcao para proximo nivel do jogo
