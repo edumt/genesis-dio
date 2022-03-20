@@ -15,7 +15,7 @@ const blue = document.querySelector(".blue");
 const colors = [green, red, yellow, blue];
 
 //cria ordem aletoria de cores
-const shuffleOrder = () => {
+const nextLevel = () => {
   clickedOrder = [];
   const randomColor = Math.floor(Math.random() * 4);
   order.push(randomColor);
@@ -43,6 +43,7 @@ const checkOrder = () => {
     }
   }
   if (clickedOrder.length === order.length) {
+    score++;
     alert(`Pontuação: ${score}\nVocê acertou! Iniciando próximo nível!`);
     nextLevel();
   }
@@ -58,12 +59,6 @@ const click = (clickedColor) => {
     clickedColorElement.classList.remove("selected");
     checkOrder();
   }, 250);
-};
-
-//funcao para proximo nivel do jogo
-const nextLevel = () => {
-  score++;
-  shuffleOrder();
 };
 
 //funcao para game over
